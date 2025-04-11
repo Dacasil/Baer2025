@@ -52,7 +52,7 @@ If the submitted response is correct, the team will receive a new set of documen
 For each API key, the system will track the longest sequence of correct responses (i.e., the "session"). The team with the longest session at the end of the challenge will be considered the winner.
 
 ## Resources:
-Frontend - register your team with given API key at following URL: https://hackathon-frontend.mlo.sehlat.io/
+Frontend - register your team with given API key at following URL: https://hackathon-frontend.mlo.sehlat.io/  
 Backend - check specification of endpoints at following URL: https://hackathon-api.mlo.sehlat.io/docs
 
 #### Important Technologies: 
