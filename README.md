@@ -71,4 +71,4 @@ Julius Bär team will provide onboarding documents and data sets for use.
 
 ## Price - the winning team members will each receive:
 
-Insert prize for winning team here.
+Inviation to Julius Bär premises to present their solution in front of senior management and potential stakeholders.
