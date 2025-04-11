@@ -7,19 +7,18 @@
 In private banking, the onboarding process requires verifying client information against a set of regulatory rules to ensure compliance. This manual process is often time-consuming and error-prone, leading to delays and a poor customer experience. Inconsistencies in documentation represent another major challenge. Onboarding can involve analysing 200-300 pages of information and contracts, where discrepancies are not only common but also significantly impact efficiency. Document and data analysis may seem mundane, but the pain today is substantial. 
 
 #### What is the expected final product?
-The expectation is to develop a comprehensive ML model that can support Relationship Managers and compliance functions to ensure all onboarding rules are duly met during client onboarding, enhanced with gamification elements so the journey is efficient and more entertaining. 
+The expectation is to develop an automated solution that can support Relationship Managers and compliance functions to ensure all onboarding rules are duly met during client onboarding.
 
 #### Who are the users of this solution?
 * Relationship Managers
-* Compliance functions (1st line of defense, 2nd line of defense) 
-* Clients (tbd)?
+* Compliance functions (1st line of defense) 
 
 #### Use Case: 
-* There is a lot of back and forth between RM and clients and risk employees, so we want to improve the efficiency of the client onboarding via AI and machine learning model. 
+* There is a lot of back and forth between RM and clients and risk employees, so we want to improve the efficiency of the client onboarding via an automated solution. 
 
 ## Expected Outcome:
 
-The expectation is to develop a comprehensive ML model that can support Relationship Managers and compliance functions to ensure all onboarding rules are duly met during client onboarding, enhanced with gamification elements so the journey is efficient and more entertaining. 
+The expectation is to develop an automated solution that can support Relationship Managers and compliance functions to ensure all onboarding rules are duly met during client onboarding, enhanced with gamification elements so the journey is efficient and more entertaining. 
 
 ## The Pitch:
 
@@ -30,18 +29,37 @@ Insert Pitchdeck here
 Insert Deep Dive Slides here:
 
 ## Further Information:
+### API Key Distribution
+Each participating team will receive a unique API key.
 
-Insert further information here
+### Initial Request
+Teams will use the API key to send an initial request to the designated endpoint, which will respond with a set of four documents:  
+- Passport (png)  
+- Client Profile (docx)  
+- Account Opening Form (pdf)  
+- Client Description (txt)
+
+### Document Analysis
+Teams must analyze the contents of these documents to determine if they are consistent with each other. Consistency will be evaluated based on predefined criteria (e.g., matching names, addresses, dates of birth, etc.).
+
+### Response Submission
+After analyzing the documents, teams must submit a response indicating whether the documents are consistent ("Accept") or not ("Reject").
+
+### Game Progression
+If the submitted response is correct, the team will receive a new set of documents for analysis. If the response is incorrect, the game will restart from the beginning.
+
+### Scorekeeping
+For each API key, the system will track the longest sequence of correct responses (i.e., the "session"). The team with the longest session at the end of the challenge will be considered the winner.
 
 ## Resources:
+Julius Bär team will provide onboarding documents and data sets for use. 
 
-Julius Bär team will provide onboarding documents and data sets for training the model. These documents will be closed to real-life without sensitive information, NDA will need to be signed by the participants. Currently they are creating some data sets, but it will clarified in the next days. 
 #### Important Technologies: 
 * AI / ML
 
 ## Judging Criteria:
-
-* Efficiency gain: Solution improves the efficiency, simplifies the process and adds some value to the step when it comes to documentation of the onboarding process  
+* Efficiency gain: Solution improves the efficiency, simplifies the process and adds some value to the step when it comes to documentation of the onboarding process
+* Longest session: Team that will have the longest session in the game receive extra
 
 ## Point of Contact:
 
