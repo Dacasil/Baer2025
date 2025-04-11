@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+#test für commit
 
 """
 -get data via APICall (raw data)
