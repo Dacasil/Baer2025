@@ -59,7 +59,7 @@ Julius Bär team will provide onboarding documents and data sets for use.
 
 ## Judging Criteria:
 * Efficiency gain: Solution improves the efficiency, simplifies the process and adds some value to the step when it comes to documentation of the onboarding process
-* Longest session: Team that will have the longest session in the game receive extra
+* Longest session: Team that will have the longest session in the game receive extra credits
 
 ## Point of Contact:
 
