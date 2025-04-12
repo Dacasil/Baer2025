@@ -1,12 +1,11 @@
 from logic.checks import trivial_check
-from logic.checks import gemini_check
+from logic.gemini_checker import gemini_checker
 
 
 def make_decision(client) -> str:
     # Do all checks
     check_results = []
-    check_results.append( trivial_check(client.pdf_path) ) # Example check
-    check_results.append( gemini_check(client) )
+    check_results.append( gemini_checker(client) )
     # Add more checks as needed
 
     # Aggregate all checks
