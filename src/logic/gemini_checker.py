@@ -28,7 +28,7 @@ from dotenv import load_dotenv
 
 from utils.client import Client
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 os.chdir(BASE_DIR)
 sys.path.append(BASE_DIR / "src")
 
@@ -133,5 +133,4 @@ if __name__ == "__main__":
     client.parse_samples()
 
     # Run the checks
-    print(trivial_check(client.pdf_path))
-    gemini_check(client)
+    gemini_checker(client.docx_df, client.pdf_df, client.png_df)
