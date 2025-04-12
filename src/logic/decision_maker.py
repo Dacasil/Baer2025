@@ -1,8 +1,17 @@
-from utils.file_parser import parse_all
-from logic.consistency_checker import check_consistency
+from logic.checks import trivial_check
 
 
-def make_decision(client_data: dict) -> str:
-    parsed_data = parse_all(client_data)
-    is_consistent = check_consistency(parsed_data)
-    return "Accept" if is_consistent else "Reject"
+def make_decision(client) -> str:
+    # Do all checks
+    check_results = []
+    check_results.append( trivial_check(client.passport_path) ) # Example check
+    check_results.append( trivial_check(client.passport_path) ) # Example check
+    check_results.append( trivial_check(client.passport_path) ) # Example check
+    check_results.append( trivial_check(client.passport_path) ) # Example check
+    # Add more checks as needed
+
+    # Aggregate all checks
+    is_accept = all(check_results)
+
+    decision = "Accept" if is_accept else "Reject"
+    return decision
