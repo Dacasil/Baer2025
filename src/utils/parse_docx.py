@@ -24,7 +24,7 @@ def parse_checked_value(value):
         return value.strip()
 
 
-def parse_docx(docx_file) -> pd.DataFrame:
+def parse_docx(docx_file, out_path=None) -> pd.DataFrame:
     doc = Document(docx_file)
     grouped = {}  # Dictionary to group values by key
 
@@ -64,6 +64,11 @@ def parse_docx(docx_file) -> pd.DataFrame:
         extracted_data.append((key, combined_value))
 
     df = pd.DataFrame(extracted_data, columns=["Field", "Value"])
+
+    if out_path:
+        # Save the DataFrame to a CSV file
+        df.to_csv(out_path, index=False)
+        
     return df
 
 
