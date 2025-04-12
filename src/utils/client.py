@@ -26,14 +26,18 @@ class Client:
     Attributes:
     """
 
-    def __init__(self, client_data: dict, client_id: str, session_id: str):
-        self.client_name = str(f"{timestamp()}_client-id_{client_id}")
+    def __init__(self, client_data: dict, client_id: str, session_id: str, client_folder: str = None) -> None:
+        if not client_folder:
+            self.client_name = str(f"{timestamp()}_client-id_{client_id}")
+            self.client_folder = BASE_DIR / "data" / "samples" / self.client_name
+        else:
+            self.client_name = client_folder.name
+            self.client_folder = client_folder
         self.client_id = client_id
         self.session_id = session_id
         self.label = None
         self.client_data = client_data
 
-        self.client_folder = BASE_DIR / "data" / "samples" / self.client_name
         self.client_folder.mkdir(parents=True, exist_ok=True)
 
         self.png_path = self.client_folder / "passport.png"
@@ -74,6 +78,8 @@ class Client:
             with open(path, "wb") as f:
                 f.write(base64.b64decode(self.client_data[key]))
 
+        self.parse_samples()
+
     def parse_samples(self) -> None:
         """Parses the samples."""
 
@@ -81,6 +87,7 @@ class Client:
         self.parsed_folder.mkdir(parents=True, exist_ok=True)
         self.parsed_pdf_path = self.parsed_folder / "parsed_pdf.csv"
         self.parsed_docx_path = self.parsed_folder / "parsed_docx.csv"
+
 
         self.pdf_df = parse_pdf(self.pdf_path, self.parsed_pdf_path)
         self.docx_df = parse_docx(self.docx_path, self.parsed_docx_path)
@@ -115,7 +122,7 @@ class Client:
             "profile": profile_data,
         }
 
-        return client_data, client_id, session_id
+        return client_data, client_id, session_id, client_folder
 
 
 if __name__== "__main__":
