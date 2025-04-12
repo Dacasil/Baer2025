@@ -20,14 +20,15 @@ def run():
 
         client = Client(client_data, client_id, api_interface.session_id)
         client.save_client_json()
+        client.parse_samples()
 
         decision = make_decision(client)
-        print(f"⚖ Decision: {decision}")
+        print(f"⚖  Decision: {decision}")
 
         next_client_id, next_client_data, current_label = api_interface.send_decision(
             client_id, decision
         )
-        print(f"✉ Decision sent! Current score: {api_interface.score}")
+        print(f"✉  Decision sent! Current score: {api_interface.score}")
         # client.add_label(current_label) # maybe later
 
         client_id = next_client_id

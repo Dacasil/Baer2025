@@ -1,23 +1,14 @@
-from pathlib import Path
-
-import fitz  # PyMuPDF
-import pandas as pd
-
-import cv2
+import csv
 import re
 from datetime import datetime
-import csv
+from pathlib import Path
 
-try:
-    from paddleocr import PaddleOCR
-except ImportError:
-    print(
-        "Paddleocr is not installed. Run 'pip install -r requirements.txt' and try again."
-    )
+import cv2
+import pandas as pd
+from paddleocr import PaddleOCR
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 DATA_DIR = BASE_DIR / "data"
-SAMPLE_CLIENT = DATA_DIR / "external/Deficient/client_501"
 
 
 # Initialize ONCE at the start of your script
@@ -103,12 +94,20 @@ def parse_png(png_path, out_path):
     result = extract_with_paddleocr(png_path)
     text_to_data(" ".join(result["all_text"]), out_path)
 
+    # Create a DataFrame
+    df = pd.read_csv(out_path)
+
+    return df
+
 
 if __name__ == "__main__":
-    client_folder_name = SAMPLE_CLIENT.name
+    from utils.client import Client
 
-    # Test pdf_to_table function
-    pdf_path = SAMPLE_CLIENT / "account.pdf"
-    output_csv_path = DATA_DIR / "parsed" / client_folder_name / "account.csv"
-    output_csv_path.parent.mkdir(parents=True, exist_ok=True)
-    account_df = parse_png(pdf_path, output_csv_path)
+    sample_client_folder = next(BASE_DIR.rglob("data/samples/*client-id_*"))
+    client = Client(*Client.load_client(sample_client_folder))
+    client_folder_name = sample_client_folder.name
+    # client.parse_samples()
+
+    account_df = parse_png(client.png_path, client.parsed_png_path)
+
+    print(account_df.head())
