@@ -78,6 +78,8 @@ class Client:
             with open(path, "wb") as f:
                 f.write(base64.b64decode(self.client_data[key]))
 
+        self.parse_samples()
+
     def parse_samples(self) -> None:
         """Parses the samples."""
 
