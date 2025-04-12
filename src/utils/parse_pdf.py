@@ -5,10 +5,10 @@ import pandas as pd
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 DATA_DIR = BASE_DIR / "data"
-SAMPLE_CLIENT = DATA_DIR / "external/Good/client_1"
+SAMPLE_CLIENT = DATA_DIR / "external/Deficient/client_501"
 
 
-def parse_pdf(pdf_path) -> pd.DataFrame:
+def parse_pdf(pdf_path, out_path=None) -> pd.DataFrame:
     """
     Extracts form widget fields from each page.
 
@@ -31,6 +31,10 @@ def parse_pdf(pdf_path) -> pd.DataFrame:
     # Create a DataFrame
     df = pd.DataFrame(form_data, columns=["Field", "Value"])
 
+    if out_path:
+        # Save the DataFrame to a CSV file
+        df.to_csv(out_path, index=False)
+
     return df
 
 
@@ -41,6 +45,6 @@ if __name__ == "__main__":
     pdf_path = SAMPLE_CLIENT / "account.pdf"
     output_csv_path = DATA_DIR / "parsed" / client_folder_name / "account.csv"
     output_csv_path.parent.mkdir(parents=True, exist_ok=True)
-    account_df = parse_pdf(pdf_path, output_csv_path)
+    account_df = parse_pdf(pdf_path)
 
 
