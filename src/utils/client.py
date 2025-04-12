@@ -7,8 +7,8 @@ from pathlib import Path
 from utils.myutils import timestamp
 from utils.parse_docx import parse_docx
 from utils.parse_pdf import parse_pdf
-# from .parse_txt import parse_txt
-# from .parse_png import parse_png
+from utils.parse_png import parse_png
+# from utils.parse_txt import parse_txt
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -50,10 +50,12 @@ class Client:
         self.parsed_folder = None
         self.parsed_pdf_path = None
         self.parsed_docx_path = None
+        self.parsed_png_path = None
+        # self.parsed_txt_path = None
         self.pdf_df = None
         self.docx_df = None
+        self.png_df = None
         # self.txt_df = None
-        # self.png_df = None
 
     def save_client_json(self) -> None:
         """Saves the client data as a JSON file."""
@@ -78,7 +80,6 @@ class Client:
             with open(path, "wb") as f:
                 f.write(base64.b64decode(self.client_data[key]))
 
-        self.parse_samples()
 
     def parse_samples(self) -> None:
         """Parses the samples."""
@@ -87,12 +88,13 @@ class Client:
         self.parsed_folder.mkdir(parents=True, exist_ok=True)
         self.parsed_pdf_path = self.parsed_folder / "parsed_pdf.csv"
         self.parsed_docx_path = self.parsed_folder / "parsed_docx.csv"
+        self.parsed_png_path = self.parsed_folder / "parsed_png.csv"
 
 
         self.pdf_df = parse_pdf(self.pdf_path, self.parsed_pdf_path)
         self.docx_df = parse_docx(self.docx_path, self.parsed_docx_path)
+        self.png_df = parse_png(self.png_path, self.parsed_png_path)
         # self.txt_df = parse_txt(self.txt_path)
-        # self.png_df = parse_png(self.png_path)
 
     def load_client(client_folder):
         """Loads the client data from the JSON file."""
