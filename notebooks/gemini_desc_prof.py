@@ -115,7 +115,7 @@ if __name__ == "__main__":
     narrative_data = load_narrative(narrative_csv)
 
     # Get your Gemini API key from environment
-    api_key = "AIzaSyC41lPgNFNvt0TlpXIz5NeIhfGMLPTOKXo"
+    api_key = "..."
     if not api_key:
         raise Exception("Please set the GEMINI_API_KEY environment variable.")
 
