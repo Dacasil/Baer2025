@@ -1,4 +1,8 @@
 .venv
 .env
-_*
 data
+.idea
+*.png
+*.pdf
+*.txt
+*.docx
