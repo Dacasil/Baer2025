@@ -1,2 +1,8 @@
 .venv
 .env
+.txt
+.png
+.pdf
+.docx
+sessions/
+sample_sessions/
