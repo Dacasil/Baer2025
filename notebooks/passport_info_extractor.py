@@ -1,15 +1,14 @@
-import csv
+import cv2
 import re
 from datetime import datetime
-from pathlib import Path
+import csv
 
-import cv2
-import pandas as pd
-from paddleocr import PaddleOCR
-
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-DATA_DIR = BASE_DIR / "data"
-
+try:
+    from paddleocr import PaddleOCR
+except ImportError:
+    print(
+        "Paddleocr is not installed. Run 'pip install -r requirements.txt' and try again."
+    )
 
 # Initialize ONCE at the start of your script
 ocr = PaddleOCR(
@@ -40,7 +39,7 @@ def extract_with_paddleocr(image_path):
     return {"all_text": extracted_texts, "mrz": mrz}
 
 
-def text_to_data(text, outpath):
+def text_to_data(text):
     info = {}
     patterns = {
         "passport_number": r"\b[A-Z]{2}[0-9]{7}\b",
@@ -77,37 +76,21 @@ def text_to_data(text, outpath):
         ).strftime("%d%m%Y")
 
     # Write the dictionary to a CSV file
-    with open(outpath, mode="w", newline="") as file:
+    with open("passport_info.csv", mode="w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(["Field", "Value"])  # Write header
         for key, value in info.items():
             writer.writerow([key, value])
 
 
-def parse_png(png_path, out_path):
-    """
-    Extracts passport widget fields from each page.
-    Takes a PNG file as input and returns a DataFrame.
-    Optionally it can save the DataFrame to a CSV file.
-    """
-
-    result = extract_with_paddleocr(png_path)
-    text_to_data(" ".join(result["all_text"]), out_path)
-
-    # Create a DataFrame
-    df = pd.read_csv(out_path)
-
-    return df
+def combine(input_path):
+    result = extract_with_paddleocr(input_path)
+    text_to_data(" ".join(result["all_text"]))
 
 
 if __name__ == "__main__":
-    from utils.client import Client
-
-    sample_client_folder = next(BASE_DIR.rglob("data/samples/*client-id_*"))
-    client = Client(*Client.load_client(sample_client_folder))
-    client_folder_name = sample_client_folder.name
-    # client.parse_samples()
-
-    account_df = parse_png(client.png_path, client.parsed_png_path)
-
-    print(account_df.head())
+    try:
+        input_path = "passport.png"
+        combine(input_path)
+    except Exception as e:
+        print(f"Error: {e}")

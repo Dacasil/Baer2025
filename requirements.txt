@@ -3,4 +3,11 @@ dotenv
 python-docx
 pandas
 PyMuPDF
+opencv-contrib-python
+paddlepaddle
+paddleocr
 tqdm
+google-generativeai
+opencv-python
+paddleocr
+setuptools
