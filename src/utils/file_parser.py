@@ -1,16 +1,16 @@
-def parse_passport(self, image_bytes: bytes) -> dict:
+def parse_passport(image_bytes: bytes) -> dict:
     ...
 
-def parse_profile(self, docx_bytes: bytes) -> dict:
+def parse_profile(docx_bytes: bytes) -> dict:
     ...
 
-def parse_form(self, pdf_bytes: bytes) -> dict:
+def parse_form(pdf_bytes: bytes) -> dict:
     ...
 
-def parse_description(self, txt_bytes: bytes) -> dict:
+def parse_description(txt_bytes: bytes) -> dict:
     ...
 
-def parse_all(self, client_data: dict) -> dict:
+def parse_all(client_data: dict) -> dict:
     """Parses all documents from the client data dictionary."""
 
     parsed_data = {}
