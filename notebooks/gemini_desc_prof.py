@@ -2,16 +2,13 @@ import os
 import pandas as pd
 import google.generativeai as genai
 
-
 def load_structured_profile(filepath):
     df = pd.read_csv(filepath)
     return dict(zip(df["Field"], df["Value"]))
 
-
 def load_narrative(filepath):
     df = pd.read_csv(filepath)
     return dict(zip(df["Label"], df["Text"]))
-
 
 def format_profile(profile):
     """
@@ -20,14 +17,12 @@ def format_profile(profile):
     lines = [f"{key}: {value}" for key, value in profile.items()]
     return "\n".join(lines)
 
-
 def format_narrative(narrative):
     """
     Combines labeled narrative text into a formatted sectioned summary.
     """
     sections = [f"{label}:\n{text.strip()}" for label, text in narrative.items()]
     return "\n\n".join(sections)
-
 
 def build_prompt_2(text):
     return f"""You are a senior compliance analyst at a private bank.
@@ -89,7 +84,6 @@ If no serious conflicts are found, return exactly: **Everything appears consiste
 {narrative_text}
 """
 
-
 def check_consistency_with_gemini(profile, narrative, api_key):
     genai.configure(api_key=api_key)
 
@@ -105,7 +99,6 @@ def check_consistency_with_gemini(profile, narrative, api_key):
     response = model.generate_content(p2)
     return response.text
 
-
 # ---- MAIN ----
 if __name__ == "__main__":
     profile_csv = "profile_preprocessed.csv"
@@ -115,7 +108,7 @@ if __name__ == "__main__":
     narrative_data = load_narrative(narrative_csv)
 
     # Get your Gemini API key from environment
-    api_key = "AIzaSyC41lPgNFNvt0TlpXIz5NeIhfGMLPTOKXo"
+    api_key = "AIzaSyAjGv70l8DSfl4bZQaxNUsKPEwzZoA_ojU"
     if not api_key:
         raise Exception("Please set the GEMINI_API_KEY environment variable.")
 
