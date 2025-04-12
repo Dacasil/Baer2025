@@ -6,3 +6,4 @@ data
 *.pdf
 *.txt
 *.docx
+__pycache__
