@@ -3,7 +3,7 @@ import os
 import sys
 from pathlib import Path
 
-from utils.client import ClientRaw
+from utils.client import Client
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 os.chdir(BASE_DIR)
@@ -17,5 +17,5 @@ if __name__ == "__main__":
         client_id = response["client_id"]
         session_id = response["session_id"]
 
-    client = ClientRaw(client_data, client_id, session_id)
+    client = Client(client_data, client_id, session_id)
     

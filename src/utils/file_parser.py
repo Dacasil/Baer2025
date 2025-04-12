@@ -1,11 +1,5 @@
-def parse_passport(passport_path) -> dict:
+def parse_png(png_path) -> dict:
     ...
 
-def parse_profile(profile_path) -> dict:
-    ...
-
-def parse_form(form_path) -> dict:
-    ...
-
-def parse_description(description_path) -> dict:
+def parse_txt(txt_path) -> dict:
     ...
