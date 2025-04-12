@@ -1,35 +1,31 @@
-import random
 from time import sleep
 
 from api.client import ApiInterface
+from logic.decision_maker import make_decision
 
 
-def make_dummy_decision(client_data: dict) -> str:
-    """
-    Placeholder decision logic. 
-    This will later be replaced with document analysis + consistency check.
-    """
-    return random.choice(["Accept", "Reject"])  # Dummy logic
-
-
-if __name__ == "__main__":
-    client = ApiInterface()
-    client.start_game()
+def main():
+    api_interface = ApiInterface()
+    api_interface.start_game()
 
     while True:
         print(f"\n📂 Saving client documents...")
-        client.save_client_data()
+        api_interface.save_client_data()
 
-        decision = make_dummy_decision(client.client_data)
+        decision = make_decision(api_interface.client_data)
         print(f"🧠 Decision: {decision}")
 
-        client.send_decision(decision)
-        print(f"✅ Decision sent! Current score: {client.score}")
+        api_interface.send_decision(decision)
+        print(f"✅ Decision sent! Current score: {api_interface.score}")
 
-        if client.status == "gameover":
+        if api_interface.status == "gameover":
             print("\n💀 Game Over!")
-            print(f"🏆 Final Score: {client.score}")
+            print(f"🏆 Final Score: {api_interface.score}")
             break
 
         # Optional Delay
         sleep(1)
+
+
+if __name__ == "__main__":
+    main()
