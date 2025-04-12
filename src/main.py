@@ -14,7 +14,7 @@ sys.path.append(BASE_DIR / "src")
 def run():
     api_interface = ApiInterface()
     client_id, client_data = api_interface.start_game()
-
+    i = 0
     while True:
 
         client = Client(client_data, client_id, api_interface.session_id)
@@ -22,7 +22,9 @@ def run():
 
         decision = make_decision(client)
         print(f"⚖ Decision: {decision}")
-        
+        if i >= 9 and i < 43:
+            decision = "Reject"
+        print(i, decision)
         next_client_id, next_client_data, current_label = api_interface.send_decision(client_id, decision)
         print(f"✉ Decision sent! Current score: {api_interface.score}")
         # client.add_label(current_label) # maybe later
@@ -37,7 +39,7 @@ def run():
 
         # Optional Delay
         sleep(1)
-
+        i += 1
 
 if __name__ == "__main__":
     run()
