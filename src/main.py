@@ -17,7 +17,8 @@ def run():
 
     while True:
 
-        client = Client(client_data, client_id, api_interface.session_id) # 4 Blobs & info.json gibt es schon, aber noch nicht label in info.json
+        client = Client(client_data, client_id, api_interface.session_id)
+        client.save_client_json()
 
         decision = make_decision(client)
         print(f"⚖ Decision: {decision}")

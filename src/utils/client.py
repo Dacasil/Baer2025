@@ -26,11 +26,12 @@ class Client:
     Attributes:
     """
 
-    def __init__(self, client_data: dict, client_id: str = None, session_id: str = None):
+    def __init__(self, client_data: dict, client_id: str, session_id: str):
         self.client_name = str(f"{timestamp()}_client-id_{client_id}")
         self.client_id = client_id
         self.session_id = session_id
         self.label = None
+        self.client_data = client_data
 
         self.client_folder = BASE_DIR / "data" / "samples" / self.client_name
         self.client_folder.mkdir(parents=True, exist_ok=True)
@@ -41,8 +42,6 @@ class Client:
         self.txt_path = self.client_folder / "description.txt"
         self.info_path = self.client_folder / "info.json"
 
-        Client.save_client_json(self, client_data)
-
         # parsed attributes (added by parse_samples function)
         self.parsed_folder = None
         self.parsed_pdf_path = None
@@ -52,7 +51,7 @@ class Client:
         # self.txt_df = None
         # self.png_df = None
 
-    def save_client_json(self, client_data) -> None:
+    def save_client_json(self) -> None:
         """Saves the client data as a JSON file."""
 
         client_info = {
@@ -73,7 +72,7 @@ class Client:
 
         for path, key in files:
             with open(path, "wb") as f:
-                f.write(base64.b64decode(client_data[key]))
+                f.write(base64.b64decode(self.client_data[key]))
 
     def parse_samples(self) -> None:
         """Parses the samples."""
