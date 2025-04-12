@@ -22,7 +22,7 @@ def run():
         decision = make_decision(client)
         print(f"⚖ Decision: {decision}")
         
-        next_client_id, next_client_data, current_label = api_interface.send_decision(decision)
+        next_client_id, next_client_data, current_label = api_interface.send_decision(client_id, decision)
         print(f"✉ Decision sent! Current score: {api_interface.score}")
         # client.add_label(current_label) # maybe later
 
