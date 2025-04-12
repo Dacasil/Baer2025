@@ -106,7 +106,9 @@ class ApiInterface:
 
         session_folder_name = f"{self.session_timestamp}_session-id_{self.session_id}"
         client_folder_name = f"{timestamp()}_client-id_{self.client_id}"
+
         output_dir = DATA_DIR / "samples" / session_folder_name / client_folder_name
+        
         output_dir.mkdir(parents=True, exist_ok=True)
 
         output_files = {
