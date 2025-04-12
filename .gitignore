@@ -4,5 +4,7 @@
 .png
 .pdf
 .docx
+.DS_Store
+.idea/
 sessions/
 sample_sessions/
