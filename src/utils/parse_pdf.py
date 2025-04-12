@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import fitz # PyMuPDF
+import pymupdf
 import pandas as pd
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -15,6 +16,8 @@ def parse_pdf(pdf_path, out_path=None) -> pd.DataFrame:
     Returns:
         A DataFrame containing the field names and values.
     """
+    pymupdf.TOOLS.mupdf_display_errors(False)
+
     # Open the PDF
     doc = fitz.open(pdf_path)
     form_data = []
@@ -46,5 +49,3 @@ if __name__ == "__main__":
     output_csv_path = DATA_DIR / "parsed" / client_folder_name / "account.csv"
     output_csv_path.parent.mkdir(parents=True, exist_ok=True)
     account_df = parse_pdf(pdf_path)
-
-

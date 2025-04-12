@@ -76,11 +76,5 @@ if __name__=="__main__":
     docx_path = SAMPLE_CLIENT / "profile.docx"
     df = parse_docx(docx_path)
 
-    with pd.option_context(
-        'display.max_rows', None,
-        'display.max_columns', None,
-        'display.max_colwidth', None,
-        'display.width', None
-    ):
-        print(df)
+
 
