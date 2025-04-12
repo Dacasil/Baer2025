@@ -3,3 +3,6 @@ dotenv
 python-docx
 pandas
 PyMuPDF
+opencv-contrib-python
+paddlepaddle
+paddleocr

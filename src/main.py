@@ -11,6 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 os.chdir(BASE_DIR)
 sys.path.append(BASE_DIR / "src")
 
+
 def run():
     api_interface = ApiInterface()
     client_id, client_data = api_interface.start_game()
@@ -22,8 +23,10 @@ def run():
 
         decision = make_decision(client)
         print(f"⚖ Decision: {decision}")
-        
-        next_client_id, next_client_data, current_label = api_interface.send_decision(client_id, decision)
+
+        next_client_id, next_client_data, current_label = api_interface.send_decision(
+            client_id, decision
+        )
         print(f"✉ Decision sent! Current score: {api_interface.score}")
         # client.add_label(current_label) # maybe later
 
