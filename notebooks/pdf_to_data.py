@@ -7,7 +7,7 @@ import pandas as pd
 PDF_PATH = "account.pdf"  # your PDF file
 SIGNATURE_ANCHOR_TEXT = "Specimen Signature:"
 OUTPUT_IMAGE_NAME = "signature_extracted.png"
-FORM_CSV_NAME = "form_fields.csv"
+FORM_CSV_NAME = "pdf_preprocessed.csv"
 
 
 def pdf_to_table(pdf_path):
