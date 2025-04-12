@@ -104,7 +104,7 @@ class ApiInterface:
     def save_client_data(self) -> None:
         """Saves client-related data (e.g., account, description, passport, profile) into files."""
 
-        session_folder_name = f"{timestamp()}_session-id_{self.session_id}"
+        session_folder_name = f"{self.session_timestamp}_session-id_{self.session_id}"
         client_folder_name = f"{timestamp()}_client-id_{self.client_id}"
         output_dir = DATA_DIR / "samples" / session_folder_name / client_folder_name
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -122,7 +122,7 @@ class ApiInterface:
                 os.makedirs(os.path.dirname(file_path), exist_ok=True)
                 with open(file_path, "wb") as file:
                     file.write(base64.b64decode(encoded_data))
-                print(f"{key.capitalize()} saved to {file_path}")
+                # print(f"{key.capitalize()} saved to {file_path}")
             else:
                 print(f"No data found for {key}")
 
