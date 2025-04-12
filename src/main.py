@@ -1,22 +1,33 @@
+import os
+import sys
+from pathlib import Path
 from time import sleep
 
-from api.client import ApiInterface
+from api.interface import ApiInterface
 from logic.decision_maker import make_decision
+from utils.client import ClientRaw
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+os.chdir(BASE_DIR)
+sys.path.append(BASE_DIR / "src")
 
-def main():
+def run():
     api_interface = ApiInterface()
-    api_interface.start_game()
+    client_id, client_data = api_interface.start_game()
 
     while True:
-        print(f"\n📂 Saving client documents...")
-        api_interface.save_client_data()
 
-        decision = make_decision(api_interface.client_data)
-        print(f"🧠 Decision: {decision}")
+        client = ClientRaw(client_data, client_id, api_interface.session_id) # 4 Blobs & info.json gibt es schon, aber noch nicht label in info.json
 
-        api_interface.send_decision(decision)
-        print(f"✅ Decision sent! Current score: {api_interface.score}")
+        decision = make_decision(client)
+        print(f"⚖ Decision: {decision}")
+        
+        next_client_id, next_client_data, current_label = api_interface.send_decision(decision)
+        print(f"✉ Decision sent! Current score: {api_interface.score}")
+        # client.add_label(current_label) # maybe later
+
+        client_id = next_client_id
+        client_data = next_client_data
 
         if api_interface.status == "gameover":
             print("\n💀 Game Over!")
@@ -28,4 +39,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run()
