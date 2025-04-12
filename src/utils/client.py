@@ -1,4 +1,8 @@
 from datetime import datetime
+import os
+import json
+import base64
+
 
 def timestamp():
     """Returns the current timestamp in ISO format."""
@@ -20,63 +24,69 @@ class ClientRaw:
         client_id (str): The ID of the client.
         session_id (str): The session ID for the current game session.
     """
-    
-    def __init__(self, client_data: dict, client_id: str, session_id: str):
-        self.account = None
-        self.description = None
-        self.passport = None
-        self.profile = None
 
-        self.client_name = None
+    def __init__(self, client_data: dict, client_id: str = None, session_id: str = None):
+        self.account = client_data["account"]
+        self.description = client_data["description"]
+        self.passport = client_data["passport"]
+        self.profile = client_data["profile"]
+
+        self.client_name = str(f"{timestamp()}_client-id_{client_id}")
+        self.client_id = client_id
+        self.session_id = session_id
         self.label = None
-        self.client_id = None
-        self.session_id = None
+
+        self.passport_path = None
+        self.profile_path = None
+        self.account_path = None
+        self.description_path = None
+
 
         # TODO: von client_logic alles initialisieren. 
 
-        self.client_name = f"{timestamp()}_client-id_{self.client_id}"
-
+        ClientRaw.save_client_json(self)
     def save_client_json(self) -> None:
         """Saves the client data as a JSON file."""
         # Implement saving logic here
-
-    # EXAMPLE
-    # def save_client_data(self) -> None:
-    #     """Saves client-related data (e.g., account, description, passport, profile) into files."""
-
-    #     session_folder_name = f"{self.session_timestamp}_session-id_{self.session_id}"
-    #     client_folder_name = f"{timestamp()}_client-id_{self.client_id}"
-
-    #     output_dir = DATA_DIR / "samples" / session_folder_name / client_folder_name
-        
-    #     output_dir.mkdir(parents=True, exist_ok=True)
-
-    #     output_files = {
-    #         "account": output_dir / "account.pdf",
-    #         "description": output_dir / "description.txt",
-    #         "passport": output_dir / "passport.png",
-    #         "profile": output_dir / "profile.docx"
-    #     }
-
-    #     for key, file_path in output_files.items():
-    #         encoded_data = self.client_data.get(key)
-    #         if encoded_data:
-    #             os.makedirs(os.path.dirname(file_path), exist_ok=True)
-    #             with open(file_path, "wb") as file:
-    #                 file.write(base64.b64decode(encoded_data))
-    #             # print(f"{key.capitalize()} saved to {file_path}")
-    #         else:
-    #             print(f"No data found for {key}")
+        current_folder = os.getcwd()
+        file_path = os.path.join(current_folder, f"data/samples/")
 
 
-    def load_client_json(self) -> dict:
-        """Loads the client data from a JSON file and gives client_data.
-        example:
-            client = Client(Client.load_json("client_data.json"))
-        Used later in Training."""
-        # Implement loading logic here
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        os.makedirs(f"{file_path}/{self.client_name}", exist_ok=True)
+        file_path_json = os.path.join(file_path, f"{self.client_name}/info.json")
+        file_path = os.path.join(file_path, f"{self.client_name}")
 
-        # muss auch client_id und session_id zurückgeben, damit für __init__
+        self.passport_path = f"{file_path}passport.png"
+        self.profile_path = f"{file_path}profile.docx"
+        self.account_path = f"{file_path}account.pdf"
+        self.description_path = f"{file_path}description.txt"
+
+        client_data = {
+            "client_name": self.client_name,
+            "client_id": self.client_id,
+            "session_id": self.session_id,
+            "label": self.label,
+        }
+
+
+        with open(file_path_json, "w", encoding="utf-8") as json_file:
+            json.dump(client_data, json_file, indent=4)
+
+
+
+        entries = {
+            "passport": (self.passport, "png"),
+            "profile": (self.profile, "docx"),
+            "description": (self.description, "txt"),
+            "form": (self.account, "pdf"),
+        }
+
+        for name, (data, extension) in entries.items():
+            with open(f"{file_path}/{name}.{extension}", "wb") as f:
+                f.write(base64.b64decode(data))
+
+
 
 
 
@@ -85,5 +95,3 @@ class ClientParsed:
 
 
 
-if __name__ == "__main__":
-    client = ClientRaw(ClientRaw.load_json("client_data.json"))
