@@ -5,7 +5,7 @@ from logic.gemini_checker import gemini_checker
 def make_decision(client) -> str:
     # Do all checks
     check_results = []
-    check_results.append( gemini_checker(client) )
+    check_results.append( gemini_checker(client.docx_df, client.pdf_df, client.png_df) )
     # Add more checks as needed
 
     # Aggregate all checks
