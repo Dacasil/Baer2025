@@ -5,7 +5,7 @@ from time import sleep
 
 from api.interface import ApiInterface
 from logic.decision_maker import make_decision
-from utils.client import ClientRaw
+from utils.client import Client
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 os.chdir(BASE_DIR)
@@ -17,7 +17,7 @@ def run():
 
     while True:
 
-        client = ClientRaw(client_data, client_id, api_interface.session_id) # 4 Blobs & info.json gibt es schon, aber noch nicht label in info.json
+        client = Client(client_data, client_id, api_interface.session_id) # 4 Blobs & info.json gibt es schon, aber noch nicht label in info.json
 
         decision = make_decision(client)
         print(f"⚖ Decision: {decision}")
