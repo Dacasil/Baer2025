@@ -9,7 +9,6 @@ from datetime import datetime
 import requests
 from dotenv import load_dotenv
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 os.chdir(BASE_DIR)
 
@@ -25,29 +24,23 @@ def timestamp():
 
 class ApiInterface:
     """
-    ApiInterface is a Python class that interacts with a game API to start a game, send decisions, 
-    and save client-related data. The class uses environment variables for configuration and 
-    provides methods to handle API communication and data storage.
+    ApiInterface is a Python class that interacts with a game API to start a game and send decisions.
 
     Attributes:
         session_id (str): The session ID for the current game session.
         session_timestamp (str): The timestamp of the current game session.
-        client_id (str): The client ID for the current game session.
-        client_data (dict): The client data received from the API.
         self.score (int): The score of the current game session.
-        headers (dict): The headers to be used in API requests.
         status (str): The status of the current game session.
+        headers (dict): The headers to be used in API requests.
     """
 
     def __init__(self):
         """Initializes the ApiInterface instance, and sets up request headers."""
         self.session_id = None
         self.session_timestamp = None
-        self.client_id = None
-        self.client_data = None
         self.score = None
-        self.headers = None
         self.status = None
+        self.headers = None
 
         self.headers = {
             "x-api-key": API_KEY,
@@ -64,40 +57,44 @@ class ApiInterface:
 
         if response.status_code == 200:
             data = response.json()
+            print(data["message"])
+
             self.session_id = data.get("session_id")
             self.session_timestamp = timestamp()
-            self.client_id = data.get("client_id")
-            self.client_data = data["client_data"]
             self.score = data.get("score")
-            print(data["message"])
+            self.status = "active"
+
+            client_id = data["client_id"]
+            client_data = data["client_data"]
+            return client_id, client_data
         else:
             raise Exception(f"Error starting the game: {response.status_code}, {response.text}")
 
-    def send_decision(self, decision: str):
-        """Sends a decision to the API, and receives the next game state and client data.
+    def send_decision(self, client_id, decision):
+        """Sends a decision to the API, and receives the next game state and client data."""
         
-        Args:
-            decision (str): The decision to be sent to the API.
-        
-        Returns:
-            dict: A dictionary with the client data."""
-        
-        if not self.session_id or not self.client_id:
-            raise ValueError("Session-ID oder Client-ID fehlt. Starten Sie zuerst ein Spiel.")
-
         decision_url = f"{BASE_URL}/game/decision"
         response = requests.post(decision_url, headers=self.headers, json={
             "decision": decision,
             "session_id": self.session_id,
-            "client_id": self.client_id
+            "client_id": client_id
         })
 
         if response.status_code == 200:
             data = response.json()
-            self.score = data.get("score")
-            self.client_id = data.get("client_id")
-            self.client_data = data["client_data"]
-            self.status = data.get("status")
+            self.status = data["status"]
+            self.score = data["score"]
+
+            next_client_id = data["client_id"]
+            next_client_data = data["client_data"]
+
+            # calculate current_label 
+            bool_decision = decision == "Accept"
+            is_correct_decision = self.status == "active"
+            current_bool_label = bool_decision if is_correct_decision else not bool_decision
+            current_label = "Accept" if current_bool_label else "Reject"
+
+            return next_client_id, next_client_data, current_label 
         else:
             raise Exception(f"Error sending the decision: {response.status_code}, {response.text}")
 
