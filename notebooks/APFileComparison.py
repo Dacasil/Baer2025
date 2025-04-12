@@ -16,7 +16,7 @@ class Comparison:
         self.profile['Field'] = self.profile['Field'].str.lower().str.replace(" ", "", regex=False)
         self.account = pd.read_csv(f"{file_path}pdf_prepro.csv")
         self.account['Field'] = self.account['Field'].str.lower().str.replace(" ", "", regex=False)
-
+        return Comparison.CrossMatchingProperties(self)
     def CrossMatchingProperties(self):
         name = ["name", "First/ Middle Name (s)", "account_holder_name"]
 
@@ -67,5 +67,4 @@ class Comparison:
 
 
 Client = Comparison()
-
-Client.CrossMatchingProperties()
+print(Client)
