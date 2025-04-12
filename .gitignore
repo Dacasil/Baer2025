@@ -1,10 +1,10 @@
 .venv
 .env
-.txt
-.png
-.pdf
-.docx
+data
+.idea
+*.png
+*.pdf
+*.txt
+*.docx
+__pycache__
 .DS_Store
-.idea/
-sessions/
-sample_sessions/
