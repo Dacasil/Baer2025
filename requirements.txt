@@ -4,3 +4,4 @@ python-docx
 pandas
 PyMuPDF
 tqdm
+google-generativeai
