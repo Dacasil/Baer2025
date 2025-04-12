@@ -1,2 +1,5 @@
 requests
 dotenv
+python-docx
+pandas
+PyMuPDF
