@@ -81,11 +81,13 @@ The application launches a web interface where you can drag and drop files to pr
 
 ## The Pitch:
 
-Insert Pitchdeck here
+[Pitch Deck](./slides/"SwissHacks Pitch".pptx)
+
 
 ## Deep Dive Slides:
 
 Insert Deep Dive Slides here:
+[Deep Dive Slides](./slides/DeepDive.pptx)
 
 ## Further Information:
 ### API Key Distribution
