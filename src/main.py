@@ -34,9 +34,10 @@ def run():
         client_id = next_client_id
         client_data = next_client_data
 
-        if api_interface.status == "gameover":
+        if api_interface.status != "active":
             print("\n💀 Game Over!")
             print(f"🏆 Final Score: {api_interface.score}")
+            print(f"Status: {api_interface.status}")
             break
 
         # Optional Delay
