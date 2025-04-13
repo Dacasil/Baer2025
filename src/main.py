@@ -8,7 +8,7 @@ import webbrowser
 from api.interface import ApiInterface
 from logic.decision_maker import make_decision
 from utils.client import Client
-from notebooks.APWebsite import start_website
+from utils.APWebsite import start_website
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
