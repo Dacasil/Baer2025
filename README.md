@@ -41,13 +41,13 @@ pip install -r requirements.txt
 ```
 
 ## Using our Tool
-Decide between webinterface or game
+The user has the opportunity to decide between the webinterface tool or to play the game
 
 ```bash
-pip install -r requirements.txt
+Algorithm / Website
 ```
 
-### Manual (Command Line)
+### Manual (Algorithm)
 
 Run this command to start the program and communicate with the Julius Bär API.
 ```bash
@@ -72,7 +72,7 @@ The tool returns the following details for each analysis:
 - **Final Decision**  
   `Accept` (documents consistent) or `Reject` (inconsistencies detected).
 
-### Web Interface
+### Web Interface (Website)
 The application launches a web interface where you can drag and drop files to process them. This is a proof-of-concept demo and needs integration into the target project.
 
 ![Slide 1](/slides/tool1.jpeg)
@@ -82,14 +82,10 @@ The application launches a web interface where you can drag and drop files to pr
 ## The Pitch:
 
 Insert Pitchdeck here
-![Slide 1](/slides/slide1.png)
-![Slide 2](/slides/slide2.png)
 
 ## Deep Dive Slides:
 
 Insert Deep Dive Slides here:
-![Slide 1](/slides/slide1.png)
-![Slide 2](/slides/slide2.png)
 
 ## Further Information:
 ### API Key Distribution
