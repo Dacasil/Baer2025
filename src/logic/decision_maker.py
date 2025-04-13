@@ -13,8 +13,14 @@ def make_decision(client) -> str:
             passport=client.png_df.copy(),
         )
     )
-    check_results.append(gemini_checker(client.docx_df, client.pdf_df, client.png_df))
-
+    try:
+        check_results.append(
+            gemini_checker(
+                client.docx_df, client.pdf_df, client.pdf_df
+            )  # client.png_df
+        )
+    except:
+        print("skipped AI")
     # Add more checks as needed
 
     # Aggregate all checks

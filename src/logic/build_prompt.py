@@ -28,6 +28,7 @@ CRITICAL RULES:
 3. Passport numbers: Require EXACT alphanumeric match - any discrepancy is critical
 4. Formatting errors: Only flag if they create ambiguity (e.g., "19081967" is acceptable if matching other sources when parsed as DDMMYYYY)
 5. Wrong country codes are not sufficient for returning TRUE
+6. Formatting differences are not a sufficient deficiency, e.g., date and address representation in the Narrative and Passport vs. the structured Profile Data
 
 Output STRICTLY in this format:
 [VERDICT]

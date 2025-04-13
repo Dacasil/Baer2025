@@ -63,7 +63,7 @@ def check_consistency_with_gemini(profile_text, narrative_text, passport_text, a
     # Configure the Gemini API with your API key.
     genai.configure(api_key=api_key)
     # Adjust the model name if needed. "gemini-1.5-pro" is an example.
-    model = genai.GenerativeModel("gemini-1.0-pro")
+    model = genai.GenerativeModel("gemini-1.5-pro")
 
     # Build the multi-source prompt.
     prompt = build_prompt(profile_text, narrative_text, passport_text)
