@@ -3,17 +3,6 @@
 
 Welcome to our **SwissHacks25** project — a compliance-driven automation tool developed for Julius Bär. This solution is designed to support Relationship Managers and compliance officers by systematically verifying that all client onboarding requirements are fulfilled in accordance with regulatory and internal policies.
 
-## Table of Contents
--[Introduction](#introduction)  
--[Expected Outcome](#expected-outcome)  
--[The Pitch](#the-pitch)  
--[Deep Dive Slides](#deep-dive-slides)  
--[Further Information](#further-information)  
--[Resources](#resources)  
--[Judging Criteria](#judging-criteria)  
--[Point of Contact](#point-of-contact)  
--[Prize](#price---the-winning-team-members-will-each-receive)
-
 ## Introduction:
 
 #### What is the current problem?
@@ -33,11 +22,29 @@ The expectation is to develop an automated solution that can support Relationshi
 
 The expectation is to develop an automated solution that can support Relationship Managers and compliance functions to ensure all onboarding rules are duly met during client onboarding, enhanced with gamification elements so the journey is efficient and more entertaining. 
 
-## The Pitch:
+### Installation of the Repository
+Step-by-step instructions on how to get the tool environment running.
+
+- **Clone the repository**
+```bash
+git clone https://github.com/Licates/juliusbaer.git
+```
+
+- **Navigate to the project directory**
+```bash
+cd juliusbaer
+```
+
+- **Create and activate the environment**
+```bash
+pip install -r requirements.txt
+```
+
+### The Pitch:
 
 Insert Pitchdeck here
 
-## Deep Dive Slides:
+### Deep Dive Slides:
 
 Insert Deep Dive Slides here:
 
