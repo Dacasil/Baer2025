@@ -19,13 +19,15 @@ Flag as TRUE ONLY if there is an UNEXPLAINABLE CONTRADICTION in CORE IDENTITY FI
 - Full legal name (ignore formatting/capitalization differences)
 - Date of birth (must match exactly in YYYY-MM-DD format)
 - Passport number (exact character match required)
-- Nationality (must match official country names)
+- Nationality (country names except country codes like GER or SUI can be ingored)
+- Obvious typos in the name
 
 CRITICAL RULES:
 1. Date formats: Accept any unambiguous format if numbers match (e.g., 1967-08-19 vs 19/08/1967)
 2. Name variations: Allow for diacritic differences (Kovar/Kovář) and capitalization
 3. Passport numbers: Require EXACT alphanumeric match - any discrepancy is critical
 4. Formatting errors: Only flag if they create ambiguity (e.g., "19081967" is acceptable if matching other sources when parsed as DDMMYYYY)
+5. Wrong country codes are not sufficient for returning TRUE
 
 Output STRICTLY in this format:
 [VERDICT]
