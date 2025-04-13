@@ -44,7 +44,6 @@ with open(BASE_DIR / "gemini_api_keys.json") as f:
 API_KEY_CYCLE = cycle(gemini_api_keys_list)
 
 
-
 def convert_df_to_text(df, key_field="Field", value_field="Value", delimiter=": "):
     lines = []
     for _, row in df.iterrows():
@@ -64,7 +63,7 @@ def check_consistency_with_gemini(profile_text, narrative_text, passport_text, a
     # Configure the Gemini API with your API key.
     genai.configure(api_key=api_key)
     # Adjust the model name if needed. "gemini-1.5-pro" is an example.
-    model = genai.GenerativeModel("gemini-1.5-pro")
+    model = genai.GenerativeModel("gemini-1.0-pro")
 
     # Build the multi-source prompt.
     prompt = build_prompt(profile_text, narrative_text, passport_text)
@@ -76,7 +75,6 @@ def check_consistency_with_gemini(profile_text, narrative_text, passport_text, a
     return response.text.strip()
 
 
-
 def gemini_checker(docx_df, pdf_df, png_df):
 
     # Convert each CSV into a text representation.
@@ -84,20 +82,25 @@ def gemini_checker(docx_df, pdf_df, png_df):
     narrative_text = convert_df_to_text(pdf_df)
     passport_text = convert_df_to_text(png_df)
 
-
     # Call Gemini to check consistency.
 
     for attempt in range(MAX_RETRIES):
         try:
             api_key = next(API_KEY_CYCLE)
             print(f"Using API key: {api_key}")
-            gemini_result = check_consistency_with_gemini(profile_text, narrative_text, passport_text, api_key)
+            gemini_result = check_consistency_with_gemini(
+                profile_text, narrative_text, passport_text, api_key
+            )
             break
         except ResourceExhausted as e:
-            print(f"Rate limit exceeded. Retrying in {RETRY_DELAY} seconds... (Attempt {attempt + 1}/{MAX_RETRIES})")
+            print(
+                f"Rate limit exceeded. Retrying in {RETRY_DELAY} seconds... (Attempt {attempt + 1}/{MAX_RETRIES})"
+            )
             time.sleep(RETRY_DELAY)
     else:
-        raise RuntimeError("Max retries exceeded. Unable to get a response from Gemini.")
+        raise RuntimeError(
+            "Max retries exceeded. Unable to get a response from Gemini."
+        )
 
     print(f"Gemini result: {gemini_result}")
 
@@ -111,7 +114,9 @@ def gemini_checker(docx_df, pdf_df, png_df):
     elif false_count > true_count:
         negated_result = False
     else:
-        raise ValueError("Equal occurrences of 'TRUE' and 'FALSE' detected. Unable to determine result.")
+        raise ValueError(
+            "Equal occurrences of 'TRUE' and 'FALSE' detected. Unable to determine result."
+        )
 
     result = not negated_result
     return result
