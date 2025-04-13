@@ -15,7 +15,6 @@ sys.path.append(BASE_DIR / "src")
 def run():
     api_interface = ApiInterface()
     client_id, client_data = api_interface.start_game()
-
     while True:
 
         client = Client(client_data, client_id, api_interface.session_id)
@@ -42,7 +41,6 @@ def run():
 
         # Optional Delay
         sleep(1)
-
 
 if __name__ == "__main__":
     run()
