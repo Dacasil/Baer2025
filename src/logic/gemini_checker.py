@@ -22,11 +22,11 @@ import json
 import os
 import sys
 import time
+from itertools import cycle
 from pathlib import Path
 
 import google.generativeai as genai
 import pandas as pd
-from dotenv import load_dotenv
 from google.api_core.exceptions import ResourceExhausted
 
 from logic.build_prompt import build_prompt
@@ -38,6 +38,10 @@ sys.path.append(BASE_DIR / "src")
 
 MAX_RETRIES = 5
 RETRY_DELAY = 5
+
+with open(BASE_DIR / "gemini_api_keys.json") as f:
+    gemini_api_keys_list = json.load(f)
+API_KEY_CYCLE = cycle(gemini_api_keys_list)
 
 
 
@@ -67,19 +71,7 @@ def check_consistency_with_gemini(profile_text, narrative_text, passport_text, a
 
     # Send the prompt to Gemini and capture the response.
 
-    for attempt in range(MAX_RETRIES):
-        try:
-            response = model.generate_content(prompt)
-            break
-        except ResourceExhausted as e:
-            try:
-                details = str(e.details[-1])
-                print(details)
-                retry_delay = int(details.split("seconds: ")[-1].split("\n")[0])
-            except (IndexError, ValueError):
-                retry_delay = RETRY_DELAY
-            print(f"Rate limit exceeded. Retrying in {retry_delay} seconds...")
-            time.sleep(retry_delay+10)
+    response = model.generate_content(prompt)
 
     return response.text.strip()
 
@@ -92,15 +84,21 @@ def gemini_checker(docx_df, pdf_df, png_df):
     narrative_text = convert_df_to_text(pdf_df)
     passport_text = convert_df_to_text(png_df)
 
-    # Get your Gemini API key. If you want, you can store it in an env var named GEMINI_API_KEY.
-    load_dotenv()
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key:
-        raise Exception(
-            "No Gemini API key found. Set GEMINI_API_KEY as an environment variable or place it in the code.")
 
     # Call Gemini to check consistency.
-    gemini_result = check_consistency_with_gemini(profile_text, narrative_text, passport_text, api_key)
+
+    for attempt in range(MAX_RETRIES):
+        try:
+            api_key = next(API_KEY_CYCLE)
+            print(f"Using API key: {api_key}")
+            gemini_result = check_consistency_with_gemini(profile_text, narrative_text, passport_text, api_key)
+            break
+        except ResourceExhausted as e:
+            print(f"Rate limit exceeded. Retrying in {RETRY_DELAY} seconds... (Attempt {attempt + 1}/{MAX_RETRIES})")
+            time.sleep(RETRY_DELAY)
+    else:
+        raise RuntimeError("Max retries exceeded. Unable to get a response from Gemini.")
+
     print(f"Gemini result: {gemini_result}")
 
     gemini_result_lower = gemini_result.lower()
