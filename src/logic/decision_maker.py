@@ -1,5 +1,4 @@
 from logic.checks import trivial_check
-from notebooks.APGemini import gemini_check
 from logic.APFileComparison import comparePrecise
 from logic.gemini_checker import gemini_checker
 
