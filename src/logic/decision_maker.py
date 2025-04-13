@@ -1,10 +1,12 @@
 from logic.checks import trivial_check
 from notebooks.APGemini import gemini_check
-
+from logic.APFileComparison import comparePrecise
 def make_decision(client) -> str:
     # Do all checks
     check_results = []
-    check_results.append( gemini_check(account = client.pdf_df,profile = client.docx_df) )
+    #check_results.append( gemini_check(account = client.pdf_df,profile = client.docx_df) )
+
+    check_results.append( comparePrecise(account = client.pdf_df,profile = client.docx_df,passport = client.png_df) )
 
     # Add more checks as needed
 
