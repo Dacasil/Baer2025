@@ -18,6 +18,7 @@ IMPORTANT:
   or manually specify in code for testing.
 """
 
+import json
 import os
 import sys
 import time
@@ -69,16 +70,17 @@ def check_consistency_with_gemini(profile_text, narrative_text, passport_text, a
     for attempt in range(MAX_RETRIES):
         try:
             response = model.generate_content(prompt)
-            # Return just the model's text output, stripped of whitespace.
             break
         except ResourceExhausted as e:
-            # Extrahiere den `retry_delay` aus der Exception
-            retry_delay = e.retry_delay.seconds if hasattr(e, "retry_delay") and e.retry_delay else RETRY_DELAY
-            if attempt < MAX_RETRIES - 1:
-                print(f"Quota exceeded. Retrying in {retry_delay} seconds... (Attempt {attempt + 1}/{MAX_RETRIES})")
-                time.sleep(retry_delay)
-            else:
-                raise Exception("Exceeded maximum retries due to API quota limits.") from e
+            try:
+                details = str(e.details[-1])
+                print(details)
+                retry_delay = int(details.split("seconds: ")[-1].split("\n")[0])
+            except (IndexError, ValueError):
+                retry_delay = RETRY_DELAY
+            print(f"Rate limit exceeded. Retrying in {retry_delay} seconds...")
+            time.sleep(retry_delay+10)
+
     return response.text.strip()
 
 
@@ -125,5 +127,6 @@ if __name__ == "__main__":
     client.parse_samples()
 
     # Run the checks
-    result = gemini_checker(client.docx_df, client.pdf_df, client.png_df)
-    print(result)
+    for i in range(100):
+        result = gemini_checker(client.docx_df, client.pdf_df, client.png_df)
+        print(f"Gemini result: {result}")
