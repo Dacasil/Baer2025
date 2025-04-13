@@ -24,6 +24,22 @@ class Client:
     It contains methods to save and load client data in JSON format.
     
     Attributes:
+        client_folder (Path): Path to the folder containing client data.
+        png_path (Path): Path to the PNG file.
+        docx_path (Path): Path to the DOCX file.
+        pdf_path (Path): Path to the PDF file.
+        txt_path (Path): Path to the TXT file.
+        info_path (Path): Path to the JSON file containing client information.
+
+        png_df (pd.DataFrame): DataFrame containing parsed PNG data.
+        docx_df (pd.DataFrame): DataFrame containing parsed DOCX data.
+        pdf_df (pd.DataFrame): DataFrame containing parsed PDF data.
+        txt (str): Text content from the TXT file.
+
+        parsed_folder (Path): Path to the folder containing parsed data.
+        parsed_pdf_path (Path): Path to the parsed PDF file.
+        parsed_docx_path (Path): Path to the parsed DOCX file.
+        parsed_png_path (Path): Path to the parsed PNG file.
     """
 
     def __init__(self, client_data: dict, client_id: str, session_id: str, client_folder: str = None) -> None:
@@ -51,11 +67,9 @@ class Client:
         self.parsed_pdf_path = None
         self.parsed_docx_path = None
         self.parsed_png_path = None
-        # self.parsed_txt_path = None
         self.pdf_df = None
         self.docx_df = None
         self.png_df = None
-        # self.txt_df = None
 
     def save_client_json(self) -> None:
         """Saves the client data as a JSON file."""
@@ -94,7 +108,8 @@ class Client:
         self.pdf_df = parse_pdf(self.pdf_path, self.parsed_pdf_path)
         self.docx_df = parse_docx(self.docx_path, self.parsed_docx_path)
         self.png_df = parse_png(self.png_path, self.parsed_png_path)
-        # self.txt_df = parse_txt(self.txt_path)
+        with open(self.txt_path) as f:
+            self.txt = f.read()
 
     def load_client(client_folder):
         """Loads the client data from the JSON file."""
@@ -132,3 +147,5 @@ if __name__== "__main__":
 
     client = Client(*Client.load_client(sample_client_folder))
     client.parse_samples()
+
+    print(client.txt)
