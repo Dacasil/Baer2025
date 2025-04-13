@@ -1,6 +1,19 @@
 # JULIUS BÄR
 # Onboard Quest - Improve Client Onboarding Efficiency in Private Banking using Machine Learning and Gamification
 
+Welcome to our **SwissHacks25** project — a compliance-driven automation tool developed for Julius Bär. This solution is designed to support Relationship Managers and compliance officers by systematically verifying that all client onboarding requirements are fulfilled in accordance with regulatory and internal policies.
+
+## Table of Contents
+-[Introduction](#introduction)  
+-[Expected Outcome](#expected-outcome)  
+-[The Pitch](#the-pitch)  
+-[Deep Dive Slides](#deep-dive-slides)  
+-[Further Information](#further-information)  
+-[Resources](#resources)  
+-[Judging Criteria](#judging-criteria)  
+-[Point of Contact](#point-of-contact)  
+-[Prize](#price---the-winning-team-members-will-each-receive)
+
 ## Introduction:
 
 #### What is the current problem?
