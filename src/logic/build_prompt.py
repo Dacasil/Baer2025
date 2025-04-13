@@ -19,8 +19,8 @@ Flag as TRUE ONLY if there is an UNEXPLAINABLE CONTRADICTION in CORE IDENTITY FI
 - Full legal name (ignore formatting/capitalization differences)
 - Date of birth (must match exactly in YYYY-MM-DD format)
 - Passport number (exact character match required)
-- Nationality (country names except country codes like GER or SUI can be ingored)
-- Obvious typos in the name
+- Nationality is the same in all documents(country names)
+- Obvious TYPOS in the name
 
 CRITICAL RULES:
 1. Date formats: Accept any unambiguous format if numbers match (e.g., 1967-08-19 vs 19/08/1967)
