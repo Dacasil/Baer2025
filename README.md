@@ -81,7 +81,7 @@ The application launches a web interface where you can drag and drop files to pr
 
 ## The Pitch:
 
-[Pitch Deck](./slides/"SwissHacks Pitch".pptx)
+[Pitch Deck](./slides/SwissHacksPitch.pptx)
 
 
 ## Deep Dive Slides:
