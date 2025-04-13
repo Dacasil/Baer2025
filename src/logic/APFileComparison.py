@@ -77,7 +77,6 @@ class Comparison:
         self.account = account
         self.account['Field'] = self.account['Field'].str.lower().str.replace(" ", "", regex=False)
 
-        print(self.profile)
 
     def CrossMatchingProperties(self):
         name = ["name", "First/ Middle Name (s)", "account_holder_name"]
@@ -120,7 +119,6 @@ class Comparison:
             "passport": False,
             "account": False
         }
-        print(f"matches: \n{matches}\n")
         for name1, val1 in matches.items():
             for name2, val2 in matches.items():
                 if name1 == name2:
@@ -129,11 +127,9 @@ class Comparison:
                     try:
                         if val.lower().replace(" ", "") in [v.lower().replace(" ", "") for v in val2]:
                             names[name1] = True
-                            print(f"Val1 {name1}:\n{val1}\nVal2 {name2}:\n{val2}")
                     except:
                         if val in [v for v in val2]:
                             names[name1] = True
-                            print(f"Val1 {name1}:\n{val1}\nVal2 {name2}:\n{val2}")
 
         # find name entry
         filtered_values = [value for value in names.values() if value]
