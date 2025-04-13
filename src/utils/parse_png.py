@@ -66,15 +66,9 @@ def text_to_data(text, outpath):
         # info["full_name"] = f"{info['surname']} {info['name']}"
 
     if dates_match := re.findall(patterns["dates"], text):
-        info["date_of_birth"] = datetime.strptime(dates_match[0], "%d-%b-%Y").strftime(
-            "%d%m%Y"
-        )
-        info["issue_date"] = datetime.strptime(dates_match[1], "%d-%b-%Y").strftime(
-            "%d%m%Y"
-        )
-        info["expiration_date"] = datetime.strptime(
-            dates_match[2], "%d-%b-%Y"
-        ).strftime("%d%m%Y")
+        info["date_of_birth"] = dates_match[0]
+        info["issue_date"] = dates_match[1]
+        info["expiration_date"] = dates_match[2]
 
     # Write the dictionary to a CSV file
     with open(outpath, mode="w", newline="") as file:
