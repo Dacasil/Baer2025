@@ -108,7 +108,7 @@ class Client:
         self.pdf_df = parse_pdf(self.pdf_path, self.parsed_pdf_path)
         self.docx_df = parse_docx(self.docx_path, self.parsed_docx_path)
         self.png_df = parse_png(self.png_path, self.parsed_png_path)
-        with open(self.txt_path) as f:
+        with open(self.txt_path, encoding="utf-8") as f:
             self.txt = f.read()
 
     def load_client(client_folder):
