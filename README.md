@@ -18,11 +18,11 @@ The expectation is to develop an automated solution that can support Relationshi
 #### Use Case: 
 * There is a lot of back and forth between RM and clients and risk employees, so we want to improve the efficiency of the client onboarding via an automated solution. 
 
-## Expected Outcome:
+### Expected Outcome:
 
 The expectation is to develop an automated solution that can support Relationship Managers and compliance functions to ensure all onboarding rules are duly met during client onboarding, enhanced with gamification elements so the journey is efficient and more entertaining. 
 
-### Installation of the Repository
+## Installation of the Repository
 Step-by-step instructions on how to get the tool environment running.
 
 - **Clone the repository**
@@ -40,16 +40,56 @@ cd juliusbaer
 pip install -r requirements.txt
 ```
 
-### Using our Tool
+## Using our Tool
+Decide between webinterface or game
+
+```bash
+pip install -r requirements.txt
+```
+
+### Manual (Command Line)
+
+Run this command to start the program and communicate with the Julius Bär API.
+```bash
+python3 main.py
+```
+
+### Tool Output
+The tool returns the following details for each analysis:
+
+- **Score**  
+  Current streak of correct decisions (e.g., `Current score: 1`).  
+
+- **Model Result**  
+  AI’s consistency verdict (e.g., `Gemini result: FALSE`).  
+
+- **Decision Logic**  
+  Brief explanation of the analysis (e.g., `"All core identity fields are consistent..."`).  
+
+- **API Key**  
+  The key used for the request (e.g., `Using API key: XXXXX`).  
+
+- **Final Decision**  
+  `Accept` (documents consistent) or `Reject` (inconsistencies detected).
+
+### Web Interface
+The application launches a web interface where you can drag and drop files to process them. This is a proof-of-concept demo and needs integration into the target project.
+
+![Slide 1](/slides/tool1.jpeg)
+![Slide 2](/slides/tool2.jpeg)
 
 
-### The Pitch:
+## The Pitch:
 
 Insert Pitchdeck here
+![Slide 1](/slides/slide1.png)
+![Slide 2](/slides/slide2.png)
 
-### Deep Dive Slides:
+## Deep Dive Slides:
 
 Insert Deep Dive Slides here:
+![Slide 1](/slides/slide1.png)
+![Slide 2](/slides/slide2.png)
 
 ## Further Information:
 ### API Key Distribution
