@@ -86,7 +86,6 @@ The application launches a web interface where you can drag and drop files to pr
 
 ## Deep Dive Slides:
 
-Insert Deep Dive Slides here:
 [Deep Dive Slides](./slides/DeepDive.pptx)
 
 ## Further Information:
