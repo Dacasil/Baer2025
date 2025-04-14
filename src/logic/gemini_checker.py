@@ -18,19 +18,21 @@ IMPORTANT:
   or manually specify in code for testing.
 """
 
+import json
 import os
 import sys
+import time
+from itertools import cycle
 from pathlib import Path
 
 import google.generativeai as genai
 import pandas as pd
-from dotenv import load_dotenv
+from google.api_core.exceptions import ResourceExhausted
 
+from logic.build_prompt import build_prompt
 from utils.client import Client
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-os.chdir(BASE_DIR)
-sys.path.append(BASE_DIR / "src")
+
 
 
 def convert_df_to_text(df, key_field="Field", value_field="Value", delimiter=": "):
@@ -40,46 +42,6 @@ def convert_df_to_text(df, key_field="Field", value_field="Value", delimiter=": 
         value = str(row[value_field])
         lines.append(f"{key}{delimiter}{value}")
     return "\n".join(lines)
-
-
-def build_prompt(profile_text, narrative_text, passport_text):
-    """
-    Builds a prompt for Gemini to check consistency across three sources:
-      1) profile_text
-      2) narrative_text
-      3) passport_text
-
-    Only output "TRUE" if there is a clear, irreconcilable conflict;
-    otherwise, output "FALSE".
-    """
-    return f"""
-You are a senior consistency auditor at a private bank.
-
-Below are three sources of information regarding a single client:
-
-1. **Profile Data** (from a form):
-{profile_text}
-
-2. **Narrative Data** (free-text explanation):
-{narrative_text}
-
-3. **Passport Data** (official ID fields):
-{passport_text}
-
-Please analyze these sources and determine if there is any **material factual contradiction** 
-among them. For example, flag a contradiction only if there are clear, unexplainable conflicts 
-in key facts (e.g., conflicting dates, employment status, or wealth figures).
-
-Do NOT flag minor differences such as:
-- Rounding differences (e.g., €548,000 vs. a range of €500,000–1,000,000)
-- Slight differences in phrasing or formatting
-- Inconsistencies due to placeholder terms (like "Business" vs "Investments")
-- Normal omissions in any one source that do not conflict
-
-Answer ONLY with either:
-"TRUE" – if a material, non-explainable contradiction exists,
-or "FALSE" – if any differences are minor or easily explainable.
-"""
 
 
 def check_consistency_with_gemini(profile_text, narrative_text, passport_text, api_key):
@@ -98,10 +60,10 @@ def check_consistency_with_gemini(profile_text, narrative_text, passport_text, a
     prompt = build_prompt(profile_text, narrative_text, passport_text)
 
     # Send the prompt to Gemini and capture the response.
-    response = model.generate_content(prompt)
-    # Return just the model's text output, stripped of whitespace.
-    return response.text.strip()
 
+    response = model.generate_content(prompt)
+
+    return response.text.strip()
 
 
 def gemini_checker(docx_df, pdf_df, png_df):
@@ -111,21 +73,57 @@ def gemini_checker(docx_df, pdf_df, png_df):
     narrative_text = convert_df_to_text(pdf_df)
     passport_text = convert_df_to_text(png_df)
 
-    # Get your Gemini API key. If you want, you can store it in an env var named GEMINI_API_KEY.
-    load_dotenv()
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key:
-        raise Exception(
-            "No Gemini API key found. Set GEMINI_API_KEY as an environment variable or place it in the code.")
-
     # Call Gemini to check consistency.
-    negated_string_result = check_consistency_with_gemini(profile_text, narrative_text, passport_text, api_key)
-    result = not bool(negated_string_result)
 
+    for attempt in range(MAX_RETRIES):
+        try:
+            api_key = next(API_KEY_CYCLE)
+            print(f"Using API key: {api_key}")
+            gemini_result = check_consistency_with_gemini(
+                profile_text, narrative_text, passport_text, api_key
+            )
+            break
+        except ResourceExhausted as e:
+            print(
+                f"Rate limit exceeded. Retrying in {RETRY_DELAY} seconds... (Attempt {attempt + 1}/{MAX_RETRIES})"
+            )
+            time.sleep(RETRY_DELAY)
+    else:
+        raise RuntimeError(
+            "Max retries exceeded. Unable to get a response from Gemini."
+        )
+
+    print(f"Gemini result: {gemini_result}")
+
+    gemini_result_lower = gemini_result.lower()
+    true_count = gemini_result_lower.count("true")
+    false_count = gemini_result_lower.count("false")
+
+    # Determine the result based on counts
+    if true_count > false_count:
+        negated_result = True
+    elif false_count > true_count:
+        negated_result = False
+    else:
+        raise ValueError(
+            "Equal occurrences of 'TRUE' and 'FALSE' detected. Unable to determine result."
+        )
+
+    result = not negated_result
     return result
 
 
 if __name__ == "__main__":
+    BASE_DIR = Path(__file__).resolve().parent.parent.parent
+    os.chdir(BASE_DIR)
+    sys.path.append(BASE_DIR / "src")
+
+    MAX_RETRIES = 5
+    RETRY_DELAY = 5
+
+    with open(BASE_DIR / "gemini_api_keys.json") as f:
+        gemini_api_keys_list = json.load(f)
+    API_KEY_CYCLE = cycle(gemini_api_keys_list)
     # Example usage
     sample_client_folder = next(BASE_DIR.rglob("data/samples/*client-id_*"))
 
@@ -133,5 +131,6 @@ if __name__ == "__main__":
     client.parse_samples()
 
     # Run the checks
-    print(trivial_check(client.pdf_path))
-    gemini_check(client)
+    for i in range(100):
+        result = gemini_checker(client.docx_df, client.pdf_df, client.png_df)
+        print(f"Gemini result: {result}")

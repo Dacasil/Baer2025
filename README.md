@@ -1,6 +1,8 @@
 # JULIUS BÄR
 # Onboard Quest - Improve Client Onboarding Efficiency in Private Banking using Machine Learning and Gamification
 
+Welcome to our **SwissHacks25** project — a compliance-driven automation tool developed for Julius Bär. This solution is designed to support Relationship Managers and compliance officers by systematically verifying that all client onboarding requirements are fulfilled in accordance with regulatory and internal policies.
+
 ## Introduction:
 
 #### What is the current problem?
@@ -16,17 +18,75 @@ The expectation is to develop an automated solution that can support Relationshi
 #### Use Case: 
 * There is a lot of back and forth between RM and clients and risk employees, so we want to improve the efficiency of the client onboarding via an automated solution. 
 
-## Expected Outcome:
+### Expected Outcome:
 
 The expectation is to develop an automated solution that can support Relationship Managers and compliance functions to ensure all onboarding rules are duly met during client onboarding, enhanced with gamification elements so the journey is efficient and more entertaining. 
 
+## Installation of the Repository
+Step-by-step instructions on how to get the tool environment running.
+
+- **Clone the repository**
+```bash
+git clone https://github.com/Licates/juliusbaer.git
+```
+
+- **Navigate to the project directory**
+```bash
+cd juliusbaer
+```
+
+- **Create and activate the environment**
+```bash
+pip install -r requirements.txt
+```
+
+## Using our Tool
+The user has the opportunity to decide between the webinterface tool or to play the game
+
+```bash
+Algorithm / Website
+```
+
+### Manual (Algorithm)
+
+Run this command to start the program and communicate with the Julius Bär API.
+```bash
+python3 main.py
+```
+
+### Tool Output
+The tool returns the following details for each analysis:
+
+- **Score**  
+  Current streak of correct decisions (e.g., `Current score: 1`).  
+
+- **Model Result**  
+  AI’s consistency verdict (e.g., `Gemini result: FALSE`).  
+
+- **Decision Logic**  
+  Brief explanation of the analysis (e.g., `"All core identity fields are consistent..."`).  
+
+- **API Key**  
+  The key used for the request (e.g., `Using API key: XXXXX`).  
+
+- **Final Decision**  
+  `Accept` (documents consistent) or `Reject` (inconsistencies detected).
+
+### Web Interface (Website)
+The application launches a web interface where you can drag and drop files to process them. This is a proof-of-concept demo and needs integration into the target project.
+
+![Slide 1](/slides/tool1.jpeg)
+![Slide 2](/slides/tool2.jpeg)
+
+
 ## The Pitch:
 
-Insert Pitchdeck here
+[Pitch Deck](./slides/SwissHacksPitch.pptx)
+
 
 ## Deep Dive Slides:
 
-Insert Deep Dive Slides here:
+[Deep Dive Slides](./slides/DeepDive.pptx)
 
 ## Further Information:
 ### API Key Distribution
