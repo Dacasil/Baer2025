@@ -411,7 +411,7 @@ def upload_files():
     result = None
     filenames = None
 
-    save_path = "data/website"
+    save_path = "website"
     os.makedirs(save_path, exist_ok=True)
 
 
