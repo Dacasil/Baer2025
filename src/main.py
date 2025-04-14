@@ -2,19 +2,34 @@ import os
 import sys
 from pathlib import Path
 from time import sleep
+import threading
+import webbrowser
 
 from api.interface import ApiInterface
 from logic.decision_maker import make_decision
 from utils.client import Client
+from utils.APWebsite import start_website
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 os.chdir(BASE_DIR)
 sys.path.append(BASE_DIR / "src")
 
+game_run = input("Do you want to run the Algorithm or view the Website?\nType 'Algorithm' for the Algorithm\nType 'Website' for the Website\n->")
+if game_run == 'Website':
+    start_website()
+    print("Website gestartet. Warte auf Buttonpress...")
+    exit()
+elif game_run == 'Algorithm':
+    pass
+else:
+    print("Wrong Input")
+    exit()
 
 def run():
     api_interface = ApiInterface()
     client_id, client_data = api_interface.start_game()
+
     while True:
 
         client = Client(client_data, client_id, api_interface.session_id)

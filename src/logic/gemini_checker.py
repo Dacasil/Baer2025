@@ -32,16 +32,7 @@ from google.api_core.exceptions import ResourceExhausted
 from logic.build_prompt import build_prompt
 from utils.client import Client
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-os.chdir(BASE_DIR)
-sys.path.append(BASE_DIR / "src")
 
-MAX_RETRIES = 5
-RETRY_DELAY = 5
-
-with open(BASE_DIR / "gemini_api_keys.json") as f:
-    gemini_api_keys_list = json.load(f)
-API_KEY_CYCLE = cycle(gemini_api_keys_list)
 
 
 def convert_df_to_text(df, key_field="Field", value_field="Value", delimiter=": "):
@@ -123,6 +114,16 @@ def gemini_checker(docx_df, pdf_df, png_df):
 
 
 if __name__ == "__main__":
+    BASE_DIR = Path(__file__).resolve().parent.parent.parent
+    os.chdir(BASE_DIR)
+    sys.path.append(BASE_DIR / "src")
+
+    MAX_RETRIES = 5
+    RETRY_DELAY = 5
+
+    with open(BASE_DIR / "gemini_api_keys.json") as f:
+        gemini_api_keys_list = json.load(f)
+    API_KEY_CYCLE = cycle(gemini_api_keys_list)
     # Example usage
     sample_client_folder = next(BASE_DIR.rglob("data/samples/*client-id_*"))
 
